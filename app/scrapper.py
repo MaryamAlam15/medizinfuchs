@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 from sqlite3 import Error
-from typing import List, Any
+from typing import List, Any, Union
 
 import pandas as pd
 import requests
@@ -31,8 +31,8 @@ class MedizinfuchsScraper:
 
     def to_pandas(self, p_list: List) -> pd.DataFrame:
         pd.set_option("display.max_columns", None)
-        df = pd.DataFrame(p_list)
-
+        df = pd.DataFrame(p_list, columns=DATATYPES.keys())
+        
         return df
 
     def to_sqlite(self, df: pd.DataFrame) -> None:
@@ -63,18 +63,24 @@ class MedizinfuchsScraper:
         except Error as e:
             print(e)
 
-    def _get_page_content(self, search_product: str, page_num: int = 1) -> BeautifulSoup:
+    def _get_page_content(self, search_product: str, page_num: int = 1) -> Union[BeautifulSoup, None]:
         search_url = f"{URL}{search_product}.html/offset/{page_num}"
         page = requests.get(search_url)
+        if page.status_code != 200:
+            return None
+        
         soup = BeautifulSoup(page.content, "html.parser")
         return soup
 
-    def _parse_all_pages_for_product(self, search_product: str) -> ResultSet:
+    def _parse_all_pages_for_product(self, search_product: str) -> Union[ResultSet, List]:
         """
         extracts content from all pages for a given product.
         """
         # extract first page and pagination on it.
         soup = self._get_page_content(search_product)
+        if not soup:
+            return []
+        
         products = soup.find_all(attrs={"class": PRODUCT_CLASS})
 
         pagination_div = soup.find("nav", attrs={"class": PAGINATION_CLASS})

@@ -12,7 +12,7 @@ def get_products() -> json:
     return json.dumps(ProductService().get_products())
 
 
-@app.route('/products/scrap', methods=['GET'])
+@app.route('/products/scrape', methods=['GET'])
 def scrap_products() -> json:
     return json.dumps(ProductService().scrap_products())
 
@@ -22,6 +22,6 @@ def get_product(product: str) -> json:
     return json.dumps(ProductService().get_product(product=product))
 
 
-@app.route('/products/<string:product>/scrap', methods=['GET'])
+@app.route('/products/<string:product>/scrape', methods=['GET'])
 def scrap_product(product: str) -> json:
     return json.dumps(ProductService().scrap_product(product=product))

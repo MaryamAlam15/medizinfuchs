@@ -2,22 +2,22 @@ URL = "https://www.medizinfuchs.de/"
 
 PRODUCT_LIST = ['sildenafil', 'tadalafil', 'viagra', 'cialis', 'finasterid']
 
+
 DATATYPES = {
     'index': 'text',
     'id': 'text',
     'name': 'text',
-    'position': 'int',
     'manufacturer': 'text',
     'low_price': 'float',
     'number_of_pills': 'int',
     'quantity_unit': 'text',
+    'price_per_unit': 'text',
     'dosage': 'float',
     'dosage_unit': 'text',
-    'price_per_unit': 'text',
+    'position': 'int',
     'product': 'float',
     'time_stamp': 'timestamp'
 }
-
 # SELECTORS
 PRODUCT_CLASS = "produkt"
 PRODUCT_NAME_CLASS = "produktname"

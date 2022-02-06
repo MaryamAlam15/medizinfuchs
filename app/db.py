@@ -8,19 +8,21 @@ from constants import DATATYPES
 
 
 def create_connection(database: str) -> Connection:
+    conn = None
     try:
         root_dir = Path(__file__).parent.parent
-        connection = sqlite3.connect(f'{root_dir}/db/{database}.db')
+        conn = sqlite3.connect(f'{root_dir}/db/{database}.db')
     except Error as e:
         print(e)
     finally:
-        if connection:
-            connection.row_factory = sqlite3.Row
-            connection.commit()
-            return connection
+        if conn:
+            conn.row_factory = sqlite3.Row
+            conn.commit()
+            return conn
 
 
 def store_records(db: str, table: str, df: pd.DataFrame) -> None:
+    conn = None
     try:
         conn = create_connection(db)
         df.to_sql(table, conn, if_exists="append", dtype=DATATYPES)
@@ -32,6 +34,7 @@ def store_records(db: str, table: str, df: pd.DataFrame) -> None:
 
 
 def get_all_records(db: str, table: str) -> List[Any]:
+    conn = None
     try:
         conn = create_connection(db)
         query = f"""
@@ -50,6 +53,7 @@ def get_all_records(db: str, table: str) -> List[Any]:
 
 
 def get_product_records(db: str, table: str, product: str) -> List[Any]:
+    conn = None
     try:
         conn = create_connection(db)
         query = f"""

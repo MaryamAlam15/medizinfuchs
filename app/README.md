@@ -12,6 +12,9 @@ The following data is extracted:
 
 2. The data is stored in Pandas DataFrame and eventually put in SQLite database.
 
+### Pre-Req:
+- Python 3.8+
+
 ### Installations:
 This app can be installed as:
-> pip install -e .
+> pip install -r requirements.txt
